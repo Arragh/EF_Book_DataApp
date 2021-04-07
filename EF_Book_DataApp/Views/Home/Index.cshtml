@@ -9,6 +9,9 @@
     <thead>
         <tr>
             <th>
+                Id
+            </th>
+            <th>
                 Name
             </th>
             <th>
@@ -24,6 +27,9 @@
         {
             <tr>
                 <td>
+                    @p.ProductId
+                </td>
+                <td>
                     @p.Name
                 </td>
                 <td>
@@ -32,7 +38,16 @@
                 <td>
                     @p.Price.ToString("F2")
                 </td>
+                <td>
+                    <form asp-action="Delete" method="post">
+                        <a asp-action="Edit" class="btn btn-sm btn-warning" asp-route-productId="@p.ProductId">Редактировать</a>
+                        <input type="hidden" name="productId" value="@p.ProductId" />
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a asp-action="Create" class="btn btn-primary">Создать новый товар</a>

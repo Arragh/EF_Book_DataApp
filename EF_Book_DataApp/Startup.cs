@@ -16,6 +16,7 @@ namespace EF_Book_DataApp
         {
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<EFDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PlayStation")));
+            services.AddTransient<IDataRepository, EFDataRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
