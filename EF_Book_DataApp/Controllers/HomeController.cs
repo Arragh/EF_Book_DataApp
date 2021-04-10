@@ -1,5 +1,6 @@
 ﻿using EF_Book_DataApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace EF_Book_DataApp.Controllers
@@ -16,7 +17,13 @@ namespace EF_Book_DataApp.Controllers
         //    return View(products);
         //}
 
-        public IActionResult Index() => View(repository.GetAllProducts());
+        public IActionResult Index(string category = null, decimal? price = null)
+        {
+            var products = repository.GetFilteredProducts(category, price);
+            ViewBag.Category = category;
+            ViewBag.Price = price;
+            return View(products);
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -40,9 +47,9 @@ namespace EF_Book_DataApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(Product product, Product original)
         {
-            repository.UpdateProduct(product);
+            repository.UpdateProduct(product, original);
             return RedirectToAction("Index");
         }
 
