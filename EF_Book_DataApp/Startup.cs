@@ -15,8 +15,11 @@ namespace EF_Book_DataApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddDbContext<EFDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PlayStation")));
+            services.AddDbContext<EFDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PlayStationProducts")));
+            services.AddDbContext<EFCustomerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PlayStationCustomers")));
             services.AddTransient<IDataRepository, EFDataRepository>();
+            services.AddTransient<ICustomerRepository, EFCustomerRepository>();
+            services.AddTransient<MigrationsManager>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

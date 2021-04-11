@@ -3,14 +3,16 @@ using EF_Book_DataApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EF_Book_DataApp.Migrations
+namespace EF_Book_DataApp.Migrations.EFCustomer
 {
-    [DbContext(typeof(EFDatabaseContext))]
-    partial class EFDatabaseContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EFCustomerContext))]
+    [Migration("20210411165306_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,31 +20,25 @@ namespace EF_Book_DataApp.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EF_Book_DataApp.Models.Product", b =>
+            modelBuilder.Entity("EF_Book_DataApp.Models.Customer", b =>
                 {
-                    b.Property<long>("ProductId")
+                    b.Property<long>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category")
+                    b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Color")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("InStock")
-                        .HasColumnType("bit");
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.HasKey("CustomerId");
 
-                    b.HasKey("ProductId");
-
-                    b.ToTable("Products");
+                    b.ToTable("Customers");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,70 @@
+﻿@using EF_Book_DataApp.Models
+@model MigrationsManager
+
+@{ 
+    ViewData["Title"] = "Migrations";
+    Layout = "_Layout";
+}
+
+<div class="m-1 p-2">
+    <form asp-action="Index" method="get" class="form-inline">
+        <label class="m-1">Контекст БД:</label>
+        <select name="context" class="form-control">
+            @foreach (var name in Model.ContextNames)
+            {
+                <option selected="@(name == ViewBag.Context)">@name</option>
+            }
+        </select>
+        <button class="btn btn-primary m-1">Выбрать</button>
+    </form>
+</div>
+
+<table class="table table-sm table-striped m-2">
+    <thead>
+        <tr>
+            <th>
+                Название миграции
+            </th>
+            <th>
+                Статус
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var migration in Model.AllMigrations)
+        {
+            <tr>
+                <td>
+                    @migration
+                </td>
+                <td>
+                    @(Model.AppliedMigrations.Contains(migration) ? "Используется" : "Ожидает применения")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="m-1 p-2">
+    <form asp-action="Migrate" method="post" class="form-inline">
+        <input type="hidden" name="context" value="@ViewBag.Context" />
+        <label class="m-1">Миграция:</label>
+        <select name="migration" class="form-control">
+            <option value="0">--- Не выбрано ---</option>
+            @foreach (var migration in Model.AllMigrations.Reverse())
+            {
+                <option>@migration</option>
+            }
+            <option selected value="@Model.AllMigrations.Last()">Все миграции</option>
+        </select>
+        <button class="btn btn-primary m-1">Применить миграцию</button>
+    </form>
+</div>
+
+<div class="m-1 p-2">
+    <form method="post">
+        <input type="hidden" name="context" value="@ViewBag.Context" />
+        <button class="btn btn-primary" asp-action="Seed">Заполнить БД</button>
+        <button class="btn btn-danger" asp-action="Clear">Очистить БД</button>
+    </form>
+</div>

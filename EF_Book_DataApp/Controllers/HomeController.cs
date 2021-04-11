@@ -1,7 +1,5 @@
 ﻿using EF_Book_DataApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 
 namespace EF_Book_DataApp.Controllers
 {
