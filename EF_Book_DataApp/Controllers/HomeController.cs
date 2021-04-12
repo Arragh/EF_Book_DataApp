@@ -15,11 +15,12 @@ namespace EF_Book_DataApp.Controllers
         //    return View(products);
         //}
 
-        public IActionResult Index(string category = null, decimal? price = null)
+        public IActionResult Index(string category = null, decimal? price = null, bool includeRelated = true)
         {
-            var products = repository.GetFilteredProducts(category, price);
+            var products = repository.GetFilteredProducts(category, price, includeRelated);
             ViewBag.Category = category;
             ViewBag.Price = price;
+            ViewBag.IncludeRelated = includeRelated;
             return View(products);
         }
 

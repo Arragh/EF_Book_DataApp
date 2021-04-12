@@ -17,6 +17,13 @@
         </select>
         <label class="m-1">Минимальная цена:</label>
         <input class="form-control" name="price" value="@ViewBag.Price" />
+        <div class="form-check m-1">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="includeRelated" value="true" checked="@(ViewBag.IncludeRelated == true)" />
+                Связанные данные
+            </label>
+            <input type="hidden" name="includeRelated" value="false" />
+        </div>
         <button class="btn btn-primary m-1">Отфильтровать</button>
     </form>
 </div>
@@ -28,14 +35,18 @@
                 Id
             </th>
             <th>
-                Name
+                Название
             </th>
             <th>
-                Category
+                Категория
             </th>
             <th>
-                Price
+                Цена
             </th>
+            @if (ViewBag.IncludeRelated)
+            {
+                <th>Поставщик</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -54,6 +65,10 @@
                 <td>
                     @p.Price.ToString("F2")
                 </td>
+                @if (ViewBag.IncludeRelated)
+                {
+                    <td>@(p.Supplier?.Name ?? "Поставщик не указан")</td>
+                }
                 <td>
                     <form asp-action="Delete" method="post">
                         <a asp-action="Edit" class="btn btn-sm btn-warning" asp-route-productId="@p.ProductId">Редактировать</a>

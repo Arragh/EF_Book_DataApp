@@ -14,18 +14,28 @@
 
     <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
 
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
+    <div class="row m-1">
+        <div class="col-6">
+            <h5 class="bg-info text-center p-2 text-white">Товар</h5>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <input asp-for="Category" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+        </div>
+        <div class="col-6">
+            <h5 class="bg-info text-center p-2 text-white">Поставщик</h5>
+            @await Html.PartialAsync("Supplier", Model)
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Category"></label>
-        <input asp-for="Category" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
-    </div>
+
     <div class="text-center">
         <button class="btn btn-primary" type="submit">Сохранить</button>
         <a asp-action="Index" class="btn btn-secondary">Отменить</a>

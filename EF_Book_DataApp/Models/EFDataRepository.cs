@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,15 @@ namespace EF_Book_DataApp.Models
         //public IQueryable<Product> Products => context.Products;
         //public IEnumerable<Product> GetProductsByPrice(decimal minPrice) => context.Products.Where(p => p.Price >= minPrice).ToArray();
 
-        public Product GetProduct(long productId) => context.Products.Find(productId);
+        public Product GetProduct(long productId) => context.Products.Include(p => p.Supplier).ThenInclude(s => s.Contact).ThenInclude(c => c.Location).First(p => p.ProductId == productId);
 
         public IEnumerable<Product> GetAllProducts()
         {
             Console.WriteLine("GetAllProducts()");
-            return context.Products;
+            return context.Products.Include(p => p.Supplier);
         }
 
-        public IEnumerable<Product> GetFilteredProducts(string category = null, decimal? price = null)
+        public IEnumerable<Product> GetFilteredProducts(string category = null, decimal? price = null, bool includeRelated = true)
         {
             IQueryable<Product> data = context.Products;
             if (category != null)
@@ -31,6 +32,10 @@ namespace EF_Book_DataApp.Models
             if (price != null)
             {
                 data = data.Where(p => p.Price >= price);
+            }
+            if (includeRelated)
+            {
+                data = data.Include(p => p.Supplier);
             }
             return data;
         }
@@ -57,6 +62,8 @@ namespace EF_Book_DataApp.Models
             originalProduct.Name = changedProduct.Name;
             originalProduct.Category = changedProduct.Category;
             originalProduct.Price = changedProduct.Price;
+            originalProduct.Supplier.Name = changedProduct.Supplier.Name;
+            originalProduct.Supplier.City = changedProduct.Supplier.City;
 
             EntityEntry entry = context.Entry(originalProduct);
             Console.WriteLine($"Entity State: {entry.State}");
@@ -70,7 +77,13 @@ namespace EF_Book_DataApp.Models
 
         public void DeleteProduct(long productId)
         {
-            context.Products.Remove(new Product { ProductId = productId });
+            //context.Products.Remove(new Product { ProductId = productId });
+            Product product = GetProduct(productId);
+            context.Products.Remove(product);
+            if (product.Supplier != null)
+            {
+                context.Remove(product.Supplier);
+            }
             context.SaveChanges();
         }
     }
