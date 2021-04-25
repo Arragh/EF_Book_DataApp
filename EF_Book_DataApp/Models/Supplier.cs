@@ -11,5 +11,6 @@ namespace EF_Book_DataApp.Models
         public string Name { get; set; }
         public string City { get; set; }
         public ContactDetails Contact { get; set; }
+        public IEnumerable<Product> Products { get; set; }
     }
 }

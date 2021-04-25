@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ContactDetails>
+
+@{ 
+    ViewData["Title"] = "Контакты";
+    Layout = "_Layout";
+}
+
+<table class="table table-striped table-sm">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Phone</th>
+    </tr>
+    @foreach (var item in Model)
+	{
+		 <tr>
+             <td>@item.ContactDetailsId</td>
+             <td>@item.Name</td>
+             <td>@item.Phone</td>
+         </tr>
+	}
+</table>

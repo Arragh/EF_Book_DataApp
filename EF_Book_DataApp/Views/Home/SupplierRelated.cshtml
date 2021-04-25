@@ -1,0 +1,20 @@
+﻿@model Supplier
+
+@if (Model?.Products == null)
+{
+    <tr>
+        <td colspan="6" class="text-center table-dark">Нет связанных данных</td>
+    </tr>
+}
+else
+{
+    foreach (var product in Model.Products)
+    {
+        <tr class="table-dark">
+            <td colspan="3"></td>
+            <td>@product.Name</td>
+            <td>@product.Category</td>
+            <td>@product.Price</td>
+        </tr>
+    }
+}

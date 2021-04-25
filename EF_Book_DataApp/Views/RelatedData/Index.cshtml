@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Supplier>
+
+@{ 
+    ViewData["Title"] = "Поставщики";
+    Layout = "_Layout";
+}
+
+<table class="table table-striped table-sm">
+    <tr>
+        <th>Id</th>
+        <th>Название</th>
+        <th>Город</th>
+    </tr>
+    @foreach (var supplier in Model)
+    {
+        <tr>
+            <td>@supplier.SupplierId</td>
+            <td>@supplier.Name</td>
+            <td>@supplier.City</td>
+        </tr>
+        @if (supplier.Products != null)
+        {
+            foreach (var product in supplier.Products)
+            {
+                <tr class="table-dark">
+                    <td>@product.Name</td>
+                    <td>@product.Category</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+        }
+    }
+</table>

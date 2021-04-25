@@ -19,6 +19,9 @@ namespace EF_Book_DataApp
             services.AddDbContext<EFCustomerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PlayStationCustomers")));
             services.AddTransient<IDataRepository, EFDataRepository>();
             services.AddTransient<ICustomerRepository, EFCustomerRepository>();
+            services.AddTransient<ISupplierRepository, EFSupplierRepository>();
+            services.AddTransient<IGenericRepository<ContactDetails>, GenericRepository<ContactDetails>>();
+            services.AddTransient<IGenericRepository<ContactLocation>, GenericRepository<ContactLocation>>();
             services.AddTransient<MigrationsManager>();
         }
 
